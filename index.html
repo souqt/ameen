@@ -3,16 +3,16 @@
 <html lang="en-US">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // الحصول على الرابط الذي أحال المستخدم إلى هذه الصفحة
+            // الحصول على الرابط الذي أتى منه الزائر
             var referrer = document.referrer;
 
-            // التحقق من أن الرابط ليس فارغًا
+            // التحقق من أن الرابط الذي أتى منه الزائر موجود
             if (referrer) {
                 // إعادة التوجيه إلى الرابط المحال
                 window.location.href = referrer;
             } else {
-                // إذا لم يكن هناك رابط محال، يمكنك توجيه المستخدم إلى رابط افتراضي
-                window.location.href = "https://tlgawy.com";
+                // إذا لم يكن هناك رابط محال، يمكن توجيه المستخدم إلى رابط آخر أو الصفحة الرئيسية
+                window.location.href = "https://your-default-redirect-url.com";
             }
         });
     </script>
