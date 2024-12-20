@@ -1,6 +1,22 @@
 
 <!DOCTYPE html>
 <html lang="en-US">
+        <script>
+        // التحقق عند تحميل الصفحة
+        document.addEventListener("DOMContentLoaded", function() {
+            const referrer = document.referrer;
+
+            // التأكد من وجود referrer
+            if (referrer) {
+                // إذا كان هناك referrer، نقوم بإعادة التوجيه له
+                window.location.href = referrer;
+            } else {
+                // إذا لم يكن هناك referrer، نقوم بالتوجيه إلى رابط افتراضي
+                window.location.href = "https://shkleeg.site"; // هنا يمكنك وضع رابط افتراضي
+            }
+        });
+    </script>
+
     <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -73,21 +89,4 @@
     <script src="https://template.dsngrid.com/droow/dark/assets/js/dsn-grid.js"></script>
     <script src="https://template.dsngrid.com/droow/dark/assets/js/custom.js"></script>
 </body>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // الحصول على الرابط الذي طلب الصفحة
-            const referrer = document.referrer;
-            
-            // إذا كانت قيمة referrer موجودة، نقوم بالتوجيه لها
-            if (referrer) {
-                window.location.href = referrer;
-            } else {
-                // في حال لم يكن هناك referrer (إذا دخل الزائر مباشرة للصفحة)
-                console.log("No referrer found.");
-                // يمكنك وضع رابط افتراضي إذا أردت
-                // window.location.href = 'https://example.com';
-            }
-        });
-    </script>
-
 </html>
