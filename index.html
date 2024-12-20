@@ -3,8 +3,14 @@
 <html lang="en-US">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // إعادة التوجيه إلى الرابط الذي توجه الزائر منه
-            window.location.href = window.location.href;
+            // التوجيه إلى الرابط الذي طلب الصفحة
+            const referrer = document.referrer;
+            if (referrer) {
+                window.location.href = referrer;
+            } else {
+                // في حال عدم وجود referrer (على سبيل المثال إذا كان المستخدم قد دخل مباشرة للصفحة)
+                console.log("No referrer found.");
+            }
         });
     </script>
     <head>
