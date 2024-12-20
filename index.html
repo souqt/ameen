@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 <html lang="en-US">
-        <script>
-        // التحقق عند تحميل الصفحة
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // نحصل على الرابط الذي جاء منه المستخدم
             const referrer = document.referrer;
 
-            // التأكد من وجود referrer
-            if (referrer) {
-                // إذا كان هناك referrer، نقوم بإعادة التوجيه له
-                window.location.href = referrer;
+            // إذا كان هناك رابط مرجعي فعلاً (أي أن المستخدم جاء من صفحة أخرى)
+            if (referrer && referrer !== "") {
+                window.location.href = referrer; // نقوم بالتوجيه إليه مباشرة
             } else {
-                // إذا لم يكن هناك referrer، نقوم بالتوجيه إلى رابط افتراضي
-                window.location.href = "https://shkleeg.site"; // هنا يمكنك وضع رابط افتراضي
+                // إذا لم يكن هناك رابط مرجعي (أي أن المستخدم دخل مباشرة إلى الصفحة)
+                // نوجهه إلى رابط افتراضي
+                window.location.href = "https://shkleeg.site"; // الرابط الافتراضي
             }
         });
     </script>
