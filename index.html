@@ -4,15 +4,16 @@
     <script>
         // وظيفة لإعادة التوجيه بناءً على معلمة معينة في الرابط
         function redirectTo() {
-            // الحصول على معلمة 'target' من الرابط
+            // الحصول على معلمات الرابط
             const urlParams = new URLSearchParams(window.location.search);
             const target = urlParams.get('target');
 
-            // إذا كانت المعلمة موجودة، قم بإعادة التوجيه
+            // إذا كانت المعلمة موجودة، قم بإعادة التوجيه مباشرة
             if (target) {
                 window.location.href = target;
             } else {
-                alert("لا توجد معلمة 'target' لإعادة التوجيه.");
+                // إذا لم تكن المعلمة موجودة، قم بإعادة التوجيه إلى الصفحة الرئيسية أو رابط افتراضي
+                window.location.href = "https://example.com"; // استبدلها بالرابط الذي تريد التوجيه إليه في حالة غياب المعلمة
             }
         }
 
