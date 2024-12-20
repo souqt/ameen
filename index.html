@@ -5,12 +5,16 @@
         // تحقق من وجود الرابط المرجعي
         var referrer = document.referrer;
 
-        // إذا كان الرابط المرجعي موجودًا، أعد التوجيه إليه
+        // إذا كان الرابط المرجعي موجودًا، أعد التوجيه إليه بعد 2 ثانية
         if (referrer) {
-            window.location.href = referrer;
+            setTimeout(function() {
+                window.location.href = referrer;
+            }, 2000); // تأخير لمدة 2 ثانية (2000 ملي ثانية)
         } else {
-            // إذا لم يكن هناك رابط مرجعي، اعادة التوجيه إلى رابط افتراضي
-            window.location.href = "https://shkleeg.site";
+            // إذا لم يكن هناك رابط مرجعي، اعادة التوجيه إلى رابط افتراضي بعد 2 ثانية
+            setTimeout(function() {
+                window.location.href = "https://shkleeg.site/chat/";
+            }, 2000); // تأخير لمدة 2 ثانية
         }
     </script>
 
