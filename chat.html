@@ -12,25 +12,6 @@
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-    <script>
-        // وظيفة لإعادة التوجيه بناءً على معلمة معينة في الرابط
-        function redirectTo() {
-            // الحصول على معلمات الرابط
-            const urlParams = new URLSearchParams(window.location.search);
-            const target = urlParams.get('target');
-
-            // إذا كانت المعلمة موجودة، قم بإعادة التوجيه مباشرة
-            if (target) {
-                window.location.href = target;
-            } else {
-                // إذا لم تكن المعلمة موجودة، قم بإعادة التوجيه إلى الصفحة الرئيسية أو رابط افتراضي
-                window.location.href = "https://magic.tlgawy.com/chat.html"; // استبدلها بالرابط الذي تريد التوجيه إليه في حالة غياب المعلمة
-            }
-        }
-
-        // تنفيذ الوظيفة عند تحميل الصفحة
-        window.onload = redirectTo;
-    </script>
 
     <head>
     <!-- Required meta tags -->
