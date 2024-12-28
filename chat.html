@@ -73,6 +73,14 @@
         .progress-bar {
             background-color: #1DA1F2;
         }
+
+        .centered {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
     </style>
 </head>
 <body>
@@ -148,10 +156,9 @@
             if (target) {
                 const decodedURL = atob(target); // فك التشفير
                 document.body.innerHTML = `
-                    <div class="container">
+                    <div class="centered">
                         <h2>الانتقال للرابط</h2>
-                        <p>جارٍ التوجيه...</p>
-                        <div class="progress">
+                        <div class="progress w-75">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
                         </div>
                         <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
