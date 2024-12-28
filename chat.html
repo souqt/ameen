@@ -106,7 +106,7 @@
     <script>
         // تشفير الرابط لاختصاره
         function generateShortCode(url) {
-            return btoa(url).slice(0, 8); // تقصير النص الناتج إلى 8 أحرف
+            return btoa(url); // تقصير النص الناتج بالكامل
         }
 
         // إنشاء رابط مختصر
