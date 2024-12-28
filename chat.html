@@ -155,37 +155,7 @@
 
             if (target) {
                 const decodedURL = atob(target); // فك تشفير الرابط
-                document.body.innerHTML = `
-                    <div class="container">
-                        <h2>الانتقال للرابط</h2>
-                        <div class="progress w-100">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
-                        </div>
-                        <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
-                    </div>
-                `;
-
-                let progress = 0;
-                const progressBar = document.getElementById('progressBar');
-                const redirectButton = document.getElementById('redirectButton');
-
-                const interval = setInterval(() => {
-                    progress += 10;
-                    progressBar.style.width = `${progress}%`;
-                    if (progress === 100) {
-                        clearInterval(interval);
-                        redirectButton.style.display = 'block';
-                    }
-                }, 1000);
-            } else {
-                // إذا لم يكن هناك رابط مختصر، عرض المحتوى الأصلي
-                document.body.innerHTML = `
-                    <div class="container">
-                        <h2>اختصر رابطك الآن</h2>
-                        <input type="url" id="urlInput" class="form-control mb-3" placeholder="أدخل الرابط هنا" />
-                        <button class="btn-custom" onclick="generateRedirectLink()">إنشاء رابط مختصر</button>
-                    </div>
-                `;
+                window.location.href = decodedURL; // إعادة التوجيه إلى الرابط المختصر
             }
         }
 
@@ -194,4 +164,3 @@
     </script>
 </body>
 </html>
- 
