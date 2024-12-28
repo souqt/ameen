@@ -39,8 +39,8 @@
         .btn-custom {
             background-color: #1DA1F2;
             color: white;
-            font-size: 1rem;
-            padding: 10px 20px;
+            font-size: 1.2rem;
+            padding: 15px 30px;
             border-radius: 8px;
             border: none;
             transition: all 0.3s ease-in-out;
@@ -63,6 +63,15 @@
         .shortened-url span {
             word-break: break-word;
             color: #1DA1F2;
+        }
+
+        .progress {
+            height: 25px;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            background-color: #1DA1F2;
         }
     </style>
 </head>
@@ -87,14 +96,19 @@
     </div>
 
     <script>
-        // إنشاء رابط مختصر مع تشفير Base64
+        // تشفير الرابط لاختصاره
+        function generateShortCode(url) {
+            return btoa(url).slice(0, 8); // تقصير النص الناتج إلى 8 أحرف
+        }
+
+        // إنشاء رابط مختصر
         function generateRedirectLink() {
             const url = document.getElementById('urlInput').value;
 
             if (url) {
-                const encodedURL = btoa(url); // تشفير الرابط باستخدام Base64
+                const shortCode = generateShortCode(url); // تشفير الرابط
                 const currentURL = window.location.origin + window.location.pathname;
-                const shortenedURL = `${currentURL}?target=${encodedURL}`;
+                const shortenedURL = `${currentURL}?target=${shortCode}`;
 
                 // عرض الرابط المختصر
                 const shortenedContainer = document.getElementById('shortenedContainer');
@@ -126,29 +140,32 @@
             });
         }
 
-        // إعادة التوجيه مع عداد 10 ثوانٍ
+        // إعادة التوجيه مع شريط متحرك
         function redirectTo() {
             const urlParams = new URLSearchParams(window.location.search);
             const target = urlParams.get('target');
 
             if (target) {
-                const decodedURL = atob(target); // فك تشفير Base64
+                const decodedURL = atob(target); // فك التشفير
                 document.body.innerHTML = `
                     <div class="container">
                         <h2>الانتقال للرابط</h2>
-                        <p>سيتم التوجيه خلال <span id="timer">10</span> ثوانٍ...</p>
-                        <button id="redirectButton" class="btn-custom" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
+                        <p>جارٍ التوجيه...</p>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
+                        </div>
+                        <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
                     </div>
                 `;
 
-                let countdown = 10;
-                const timerElement = document.getElementById('timer');
+                let progress = 0;
+                const progressBar = document.getElementById('progressBar');
                 const redirectButton = document.getElementById('redirectButton');
 
                 const interval = setInterval(() => {
-                    countdown--;
-                    timerElement.textContent = countdown;
-                    if (countdown === 0) {
+                    progress += 10;
+                    progressBar.style.width = `${progress}%`;
+                    if (progress === 100) {
                         clearInterval(interval);
                         redirectButton.style.display = 'block';
                     }
