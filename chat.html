@@ -135,6 +135,9 @@
                 const qrCanvas = document.getElementById('qrcode');
                 const downloadLink = document.getElementById('downloadQR');
                 downloadLink.href = qrCanvas.toDataURL();
+
+                // حفظ الرابط الأصلي في LocalStorage
+                localStorage.setItem(shortCode, url);
             } else {
                 alert('من فضلك أدخل رابطًا صحيحًا');
             }
@@ -154,29 +157,33 @@
             const target = urlParams.get('target');
 
             if (target) {
-                const decodedURL = atob(target); // فك التشفير
-                document.body.innerHTML = `
-                    <div class="centered">
-                        <h2>الانتقال للرابط</h2>
-                        <div class="progress w-75">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
+                const decodedURL = localStorage.getItem(target); // استرداد الرابط من LocalStorage
+                if (decodedURL) {
+                    document.body.innerHTML = `
+                        <div class="centered">
+                            <h2>الانتقال للرابط</h2>
+                            <div class="progress w-75">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
+                            </div>
+                            <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
                         </div>
-                        <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
-                    </div>
-                `;
+                    `;
 
-                let progress = 0;
-                const progressBar = document.getElementById('progressBar');
-                const redirectButton = document.getElementById('redirectButton');
+                    let progress = 0;
+                    const progressBar = document.getElementById('progressBar');
+                    const redirectButton = document.getElementById('redirectButton');
 
-                const interval = setInterval(() => {
-                    progress += 10;
-                    progressBar.style.width = `${progress}%`;
-                    if (progress === 100) {
-                        clearInterval(interval);
-                        redirectButton.style.display = 'block';
-                    }
-                }, 1000);
+                    const interval = setInterval(() => {
+                        progress += 10;
+                        progressBar.style.width = `${progress}%`;
+                        if (progress === 100) {
+                            clearInterval(interval);
+                            redirectButton.style.display = 'block';
+                        }
+                    }, 1000);
+                } else {
+                    alert('الرابط غير موجود!');
+                }
             }
         }
 
