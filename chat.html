@@ -3,125 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختصار الروابط - QR</title>
+    <title>اختصار الروابط</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <style>
         body {
-            font-family: 'Amiri', serif;
-            background: linear-gradient(to bottom, #007bff, #f8f9fa);
-            color: #333;
-        }
-        .main-container {
-            margin-top: 50px;
-            background: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            padding: 30px;
-        }
-        h3 {
-            font-weight: bold;
-            color: #007bff;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .qr-container {
+            font-family: 'Roboto', sans-serif;
+            background: #f4f7fb;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h2 {
+            font-weight: bold;
+            color: #1DA1F2; /* لون مشابه لتويتر */
+        }
+
+        .btn-custom {
+            background-color: #1DA1F2;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: none;
+        }
+
+        .qr-code-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .qr-code {
+            margin: 20px 0;
+        }
+
+        .ad-banner {
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 main-container">
-                <h3 class="text-center">اختصار الروابط وتوليد رمز QR</h3>
-                <form id="shortenForm">
-                    <div class="mb-3">
-                        <label for="urlInput" class="form-label">أدخل الرابط:</label>
-                        <input type="url" id="urlInput" class="form-control" placeholder="https://example.com" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">اختصر الرابط</button>
-                    </div>
-                </form>
-                <div id="resultSection" class="mt-4 d-none">
-                    <p><strong>الرابط المختصر:</strong></p>
-                    <div class="input-group mb-3">
-                        <input type="text" id="shortenedUrl" class="form-control" readonly>
-                        <button class="btn btn-secondary" onclick="copyUrl()">نسخ</button>
-                    </div>
-                    <p><strong>رمز QR:</strong></p>
-                    <div class="qr-container">
-                        <canvas id="qrCode"></canvas>
-                        <button class="btn btn-success mt-3" id="downloadQrBtn">تحميل رمز QR</button>
-                    </div>
-                </div>
+        <h2>اختصر رابطك الآن</h2>
+        <div class="ads">
+            <!-- إعلان جوجل -->
+            <ins class="adsbygoogle ad-banner"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXX"
+                data-ad-slot="XXXXXX"
+                data-ad-format="auto"></ins>
+        </div>
+
+        <input type="text" id="urlInput" class="form-control" placeholder="أدخل الرابط هنا" />
+        <button class="btn-custom mt-3" onclick="shortenURL()">اختصر الرابط</button>
+
+        <div class="qr-code-container" id="qrContainer" style="display:none;">
+            <p>كود QR للرابط المختصر:</p>
+            <div class="qr-code">
+                <img id="qrCodeImage" src="" alt="QR Code" />
             </div>
+            <button class="btn-custom" onclick="downloadQRCode()">تحميل كود QR</button>
+        </div>
+
+        <div class="ads">
+            <!-- إعلان جوجل -->
+            <ins class="adsbygoogle ad-banner"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXX"
+                data-ad-slot="XXXXXX"
+                data-ad-format="auto"></ins>
         </div>
     </div>
 
     <script>
-        const form = document.getElementById('shortenForm');
-        const urlInput = document.getElementById('urlInput');
-        const resultSection = document.getElementById('resultSection');
-        const shortenedUrl = document.getElementById('shortenedUrl');
-        const qrCodeCanvas = document.getElementById('qrCode');
-        const downloadQrBtn = document.getElementById('downloadQrBtn');
+        // إعداد إعلانات جوجل
+        (adsbygoogle = window.adsbygoogle || []).push({});
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const url = urlInput.value;
-            const shortUrl = generateShortUrl(url);
-            shortenedUrl.value = shortUrl;
-            QRCode.toCanvas(qrCodeCanvas, shortUrl, function (error) {
-                if (error) console.error(error);
-            });
+        function shortenURL() {
+            const url = document.getElementById('urlInput').value;
 
-            // تحميل رمز QR
-            downloadQrBtn.onclick = function () {
-                const link = document.createElement('a');
-                link.download = 'qrcode.png';
-                link.href = qrCodeCanvas.toDataURL();
-                link.click();
-            };
+            if (url) {
+                const shortenedURL = `https://magic.tlgawy.com/chat.html/${btoa(url).slice(0, 8)}`; // مجرد اختصار بسيط، يمكن دمجه مع خدمة اختصار حقيقية مثل Bitly
 
-            resultSection.classList.remove('d-none');
-        });
+                // عرض الرابط المختصر للمستخدم
+                alert('الرابط المختصر هو: ' + shortenedURL);
 
-        // وظيفة اختصار الرابط عبر JavaScript
-        function generateShortUrl(url) {
-            // هنا يتم توليد الرابط المختصر فقط عبر إضافة معرّف فريد أو أي شيء آخر
-            const shortUrl = `#${btoa(url)}`; // تحويل الرابط إلى base64 واستخدامه كمعرف فريد
-            localStorage.setItem(shortUrl, url);  // تخزين الرابط الأصلي في localStorage
-            return shortUrl;
-        }
+                // توليد كود QR
+                const qrCodeURL = `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${encodeURIComponent(shortenedURL)}`;
 
-        // نسخ الرابط المختصر
-        function copyUrl() {
-            shortenedUrl.select();
-            document.execCommand('copy');
-            alert('تم نسخ الرابط المختصر!');
-        }
-
-        // إعادة التوجيه عند الضغط على الرابط المختصر
-        window.addEventListener('hashchange', function() {
-            const shortUrl = window.location.hash;
-            if (shortUrl && localStorage.getItem(shortUrl)) {
-                const originalUrl = localStorage.getItem(shortUrl);
-                window.location.href = originalUrl; // إعادة التوجيه للرابط الأصلي
+                document.getElementById('qrCodeImage').src = qrCodeURL;
+                document.getElementById('qrContainer').style.display = 'block';
+            } else {
+                alert('من فضلك أدخل رابطًا صحيحًا');
             }
-        });
+        }
+
+        // تحميل كود QR
+        function downloadQRCode() {
+            const qrCodeImage = document.getElementById('qrCodeImage');
+            const link = document.createElement('a');
+            link.href = qrCodeImage.src;
+            link.download = 'qr-code.png';
+            link.click();
+        }
+    </script>
+
+    <script>
+        // إعداد إعلانات جوجل مرة أخرى
+        (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </body>
 </html>
