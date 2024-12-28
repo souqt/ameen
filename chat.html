@@ -81,6 +81,42 @@
             justify-content: center;
             min-height: 100vh;
         }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .countdown-bar {
+            width: 100%;
+            height: 25px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .countdown-progress {
+            width: 100%;
+            height: 100%;
+            background-color: #1DA1F2;
+            transition: width 10s linear;
+        }
+
+        #skipButton {
+            display: none;
+            margin-top: 20px;
+            background-color: #1DA1F2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #skipButton:hover {
+            background-color: #0d87c7;
+        }
     </style>
 </head>
 <body>
@@ -101,9 +137,21 @@
             <canvas id="qrcode"></canvas>
             <a id="downloadQR" class="btn btn-sm btn-outline-success mt-2" download="qrcode.png">تحميل الكود</a>
         </div>
+
+        <!-- العد التنازلي -->
+        <div id="countdownContainer" class="countdown-container" style="display: none;">
+            <div class="countdown-bar">
+                <div class="countdown-progress" id="progress"></div>
+            </div>
+            <div id="skipButton" onclick="skipRedirect()">تخطي</div>
+        </div>
     </div>
 
     <script>
+        let countdownInterval;
+        let progressElement = document.getElementById('progress');
+        let skipButton = document.getElementById('skipButton');
+
         // تشفير الرابط لاختصاره
         function generateShortCode(url) {
             return btoa(url); // تقصير النص الناتج بالكامل
@@ -135,17 +183,33 @@
                 const qrCanvas = document.getElementById('qrcode');
                 const downloadLink = document.getElementById('downloadQR');
                 downloadLink.href = qrCanvas.toDataURL();
+
+                // عرض العد التنازلي
+                const countdownContainer = document.getElementById('countdownContainer');
+                countdownContainer.style.display = 'flex';
+
+                // تشغيل شريط التقدم العد التنازلي
+                let timeLeft = 10;
+                progressElement.style.transition = `width ${timeLeft}s linear`;
+
+                countdownInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(countdownInterval);
+                        skipButton.style.display = 'block'; // إظهار زر الانتقال بعد انتهاء الوقت
+                        redirectTo();
+                    }
+                }, 1000);
             } else {
                 alert('من فضلك أدخل رابطًا صحيحًا');
             }
         }
 
-        // نسخ الرابط المختصر
-        function copyURL() {
-            const shortenedURLText = document.getElementById('shortenedURL').textContent;
-            navigator.clipboard.writeText(shortenedURLText).then(() => {
-                alert('تم نسخ الرابط إلى الحافظة');
-            });
+        // تخطي العد التنازلي والانتقال مباشرة
+        function skipRedirect() {
+            clearInterval(countdownInterval);
+            skipButton.style.display = 'none';
+            redirectTo();
         }
 
         // إعادة التوجيه مع شريط متحرك
