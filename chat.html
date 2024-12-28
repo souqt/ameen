@@ -11,7 +11,7 @@
         body {
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #1DA1F2, #0d87c7);
-            color: #fff;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -160,15 +160,14 @@
                 const decodedURL = localStorage.getItem(target); // استرداد الرابط من LocalStorage
                 if (decodedURL) {
                     document.body.innerHTML = `
-    <div class="centered" style="background-color: #ffffff;">
-        <h2>الانتقال للرابط</h2>
-        <div class="progress w-75">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
-        </div>
-        <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
-    </div>
-`;
-
+                        <div class="centered">
+                            <h2>الانتقال للرابط</h2>
+                            <div class="progress w-75">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
+                            </div>
+                            <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
+                        </div>
+                    `;
 
                     let progress = 0;
                     const progressBar = document.getElementById('progressBar');
