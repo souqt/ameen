@@ -165,8 +165,7 @@
                             <div class="progress w-100">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
                             </div>
-<div style="text-align: center;">
-  <button id="redirectButton" class="btn-custom mt-4" style="display: inline-block;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
+  <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
 </div>
                         </div>
                     `;
@@ -180,7 +179,7 @@
                         progressBar.style.width = `${progress}%`;
                         if (progress === 100) {
                             clearInterval(interval);
-                            redirectButton.style.display = 'block';
+                            redirectButton.center;
                         }
                     }, 1000);
                 } else {
