@@ -152,52 +152,41 @@
         }
 
         // إعادة التوجيه مع شريط متحرك
-function redirectTo() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const encodedURL = urlParams.get("redirect");
+        function redirectTo() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const target = urlParams.get('target');
 
-    if (encodedURL) {
-        const decodedURL = atob(encodedURL);
+            if (target) {
+                const decodedURL = localStorage.getItem(target); // استرداد الرابط من LocalStorage
+                if (decodedURL) {
+                    document.body.innerHTML = `
+    <div class="centered" style="background-color: #ffffff;">
+        <h2>الانتقال للرابط</h2>
+        <div class="progress w-75">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
+        </div>
+        <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
+    </div>
+`;
 
-        // إعداد صفحة الانتقال
-        document.body.style.margin = "0"; // إزالة الهوامش
-        document.body.style.padding = "0"; // إزالة الحشوات
-        document.body.style.backgroundColor = "#ffffff"; // جعل الخلفية بيضاء
-        document.body.style.display = "flex";
-        document.body.style.justifyContent = "center";
-        document.body.style.alignItems = "center";
-        document.body.style.height = "100vh"; // ملء كامل الشاشة
 
-        document.body.innerHTML = `
-            <div class="centered text-center">
-                <h2>الانتقال للرابط</h2>
-                <div class="progress w-75 mx-auto mt-3">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
-                </div>
-                <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
-            </div>
-        `;
+                    let progress = 0;
+                    const progressBar = document.getElementById('progressBar');
+                    const redirectButton = document.getElementById('redirectButton');
 
-        let progress = 0;
-        const progressBar = document.getElementById("progressBar");
-        const redirectButton = document.getElementById("redirectButton");
-
-        const interval = setInterval(() => {
-            progress += 10;
-            progressBar.style.width = `${progress}%`;
-            if (progress >= 100) {
-                clearInterval(interval);
-                redirectButton.style.display = "block";
+                    const interval = setInterval(() => {
+                        progress += 10;
+                        progressBar.style.width = `${progress}%`;
+                        if (progress === 100) {
+                            clearInterval(interval);
+                            redirectButton.style.display = 'block';
+                        }
+                    }, 1000);
+                } else {
+                    alert('الرابط غير موجود!');
+                }
             }
-        }, 1000);
-    } else {
-        document.body.innerHTML = `
-            <div class="text-center">
-                <h2>الرابط غير صحيح!</h2>
-            </div>
-        `;
-    }
-}
+        }
 
         // تنفيذ التوجيه عند فتح الرابط
         window.onload = redirectTo;
