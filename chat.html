@@ -33,13 +33,6 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
-        .ad-container {
-            margin: 20px 0;
-            border: 1px dashed #ccc;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
         .qr-container {
             display: flex;
             justify-content: center;
@@ -74,12 +67,6 @@
                         <button class="btn btn-success mt-3" id="downloadQrBtn">تحميل رمز QR</button>
                     </div>
                 </div>
-
-                <!-- مساحة إعلانات -->
-                <div class="ad-container text-center">
-                    <p>إعلانات جوجل هنا</p>
-                    <!-- قم بإضافة كود إعلانات Google هنا -->
-                </div>
             </div>
         </div>
     </div>
@@ -101,6 +88,7 @@
                 if (error) console.error(error);
             });
 
+            // تحميل رمز QR
             downloadQrBtn.onclick = function () {
                 const link = document.createElement('a');
                 link.download = 'qrcode.png';
@@ -111,18 +99,29 @@
             resultSection.classList.remove('d-none');
         });
 
+        // وظيفة اختصار الرابط عبر JavaScript
         function generateShortUrl(url) {
-            // إنشاء رابط مختصر على النطاق المطلوب
-            // هنا يمكننا استخدام خدمات خارجية أو تعديل طريقة إنشاء الرابط المختصر ليتناسب مع طريقة عمل السيرفر
-            const shortUrl = `https://magic.tlgawy.com/redirect?r=${btoa(url)}`;
+            // هنا يتم توليد الرابط المختصر فقط عبر إضافة معرّف فريد أو أي شيء آخر
+            const shortUrl = `#${btoa(url)}`; // تحويل الرابط إلى base64 واستخدامه كمعرف فريد
+            localStorage.setItem(shortUrl, url);  // تخزين الرابط الأصلي في localStorage
             return shortUrl;
         }
 
+        // نسخ الرابط المختصر
         function copyUrl() {
             shortenedUrl.select();
             document.execCommand('copy');
             alert('تم نسخ الرابط المختصر!');
         }
+
+        // إعادة التوجيه عند الضغط على الرابط المختصر
+        window.addEventListener('hashchange', function() {
+            const shortUrl = window.location.hash;
+            if (shortUrl && localStorage.getItem(shortUrl)) {
+                const originalUrl = localStorage.getItem(shortUrl);
+                window.location.href = originalUrl; // إعادة التوجيه للرابط الأصلي
+            }
+        });
     </script>
 </body>
 </html>
