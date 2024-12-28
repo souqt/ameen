@@ -160,12 +160,12 @@
                 const decodedURL = localStorage.getItem(target); // استرداد الرابط من LocalStorage
                 if (decodedURL) {
                     document.body.innerHTML = `
-                        <div class="centered">
+                        <div class="container">
                             <h2>الانتقال للرابط</h2>
-                            <div class="progress w-75">
+                            <div class="progress w-100">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="progressBar"></div>
                             </div>
-                            <button id="redirectButton" class="btn-custom mt-4" style="display: none;" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
+                            <button id="redirectButton" class="btn-custom mt-4" style="container" onclick="window.location.href='${decodedURL}'">اضغط هنا للانتقال</button>
                         </div>
                     `;
 
