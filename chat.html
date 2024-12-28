@@ -152,9 +152,9 @@
         let progressElement = document.getElementById('progress');
         let skipButton = document.getElementById('skipButton');
 
-        // تشفير الرابط لاختصاره
+        // تشفير الرابط لاختصاره بطريقة أصغر
         function generateShortCode(url) {
-            return btoa(url); // تقصير النص الناتج بالكامل
+            return url.slice(0, 10); // تقصير الرابط إلى أول 10 حروف فقط
         }
 
         // إنشاء رابط مختصر
@@ -162,7 +162,7 @@
             const url = document.getElementById('urlInput').value;
 
             if (url) {
-                const shortCode = generateShortCode(url); // تشفير الرابط
+                const shortCode = generateShortCode(url); // تشفير الرابط بطريقة أصغر
                 const currentURL = window.location.origin + window.location.pathname;
                 const shortenedURL = `${currentURL}?target=${shortCode}`;
 
@@ -218,7 +218,7 @@
             const target = urlParams.get('target');
 
             if (target) {
-                const decodedURL = atob(target); // فك تشفير الرابط
+                const decodedURL = target; // لا داعي لفك تشفير الرابط في هذه الحالة
                 window.location.href = decodedURL; // إعادة التوجيه إلى الرابط المختصر
             }
         }
