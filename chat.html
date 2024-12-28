@@ -64,6 +64,14 @@
             word-break: break-word;
             color: #1DA1F2;
         }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 30px;
+        }
     </style>
 </head>
 <body>
@@ -83,6 +91,14 @@
             <h4>رمز الاستجابة السريعة (QR)</h4>
             <canvas id="qrcode"></canvas>
             <a id="downloadQR" class="btn btn-sm btn-outline-success mt-2" download="qrcode.png">تحميل الكود</a>
+        </div>
+
+        <!-- شريط العد التنازلي -->
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <p>سيتم التوجيه خلال:</p>
+            <div class="progress">
+                <div id="progressBar" class="progress-bar bg-info" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
         </div>
     </div>
 
@@ -126,7 +142,7 @@
             });
         }
 
-        // إعادة التوجيه مع عداد 10 ثوانٍ
+        // إعادة التوجيه مع شريط العد التنازلي
         function redirectTo() {
             const urlParams = new URLSearchParams(window.location.search);
             const target = urlParams.get('target');
@@ -143,11 +159,15 @@
 
                 let countdown = 10;
                 const timerElement = document.getElementById('timer');
+                const progressBar = document.getElementById('progressBar');
                 const redirectButton = document.getElementById('redirectButton');
+                const progressContainer = document.getElementById('progressContainer');
 
+                progressContainer.style.display = 'block'; // عرض شريط التقدم
                 const interval = setInterval(() => {
                     countdown--;
                     timerElement.textContent = countdown;
+                    progressBar.style.width = `${(countdown / 10) * 100}%`;
                     if (countdown === 0) {
                         clearInterval(interval);
                         redirectButton.style.display = 'block';
