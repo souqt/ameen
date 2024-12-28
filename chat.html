@@ -6,7 +6,6 @@
     <title>اختصار الروابط</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <style>
         body {
             font-family: 'Tajawal', sans-serif;
@@ -66,108 +65,41 @@
             word-break: break-word;
             color: #1DA1F2;
         }
-
-        .qr-code-container {
-            margin-top: 20px;
-        }
-
-        .qr-code img {
-            border: 2px solid #1DA1F2;
-            border-radius: 10px;
-        }
-
-        .ad-banner {
-            margin: 20px 0;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>اختصر رابطك الآن</h2>
-        <div class="ads">
-            <!-- إعلان جوجل -->
-            <ins class="adsbygoogle ad-banner"
-                style="display:block"
-                data-ad-client="ca-pub-XXXXXX"
-                data-ad-slot="XXXXXX"
-                data-ad-format="auto"></ins>
-        </div>
-
         <input type="url" id="urlInput" class="form-control mb-3" placeholder="أدخل الرابط هنا" />
-        <button class="btn-custom" onclick="shortenURL()">اختصر الرابط</button>
+        <button class="btn-custom" onclick="generateRedirectLink()">إنشاء رابط مختصر</button>
 
         <!-- عرض الرابط المختصر -->
         <div class="shortened-url" id="shortenedContainer" style="display: none;">
             <span id="shortenedURL"></span>
             <button class="btn btn-sm btn-outline-primary" onclick="copyURL()">نسخ</button>
         </div>
-
-        <!-- عرض كود QR -->
-        <div class="qr-code-container" id="qrContainer" style="display: none;">
-            <p>كود QR للرابط المختصر:</p>
-            <div class="qr-code">
-                <img id="qrCodeImage" src="" alt="QR Code" />
-            </div>
-            <button class="btn-custom mt-3" onclick="downloadQRCode()">تحميل كود QR</button>
-        </div>
-
-        <div class="ads">
-            <!-- إعلان جوجل -->
-            <ins class="adsbygoogle ad-banner"
-                style="display:block"
-                data-ad-client="ca-pub-XXXXXX"
-                data-ad-slot="XXXXXX"
-                data-ad-format="auto"></ins>
-        </div>
     </div>
 
     <script>
-        // إعداد إعلانات جوجل
-        (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // خدمة خارجية لاختصار الروابط باستخدام TinyURL API
-        async function shortenURL() {
+        // إنشاء رابط إعادة التوجيه مع معلمة target
+        function generateRedirectLink() {
             const url = document.getElementById('urlInput').value;
 
             if (url) {
-                try {
-                    // إرسال الطلب إلى TinyURL API
-                    const response = await fetch(`https://api.tinyurl.com/create`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': 'Bearer YOUR_API_KEY', // استبدل بـ API Key الخاص بك
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ url: url })
-                    });
+                const currentURL = window.location.origin + window.location.pathname;
+                const shortenedURL = `${currentURL}?target=${encodeURIComponent(url)}`;
 
-                    const data = await response.json();
-
-                    if (data.data && data.data.tiny_url) {
-                        const shortenedURL = data.data.tiny_url;
-
-                        // عرض الرابط المختصر
-                        const shortenedContainer = document.getElementById('shortenedContainer');
-                        const shortenedURLText = document.getElementById('shortenedURL');
-                        shortenedContainer.style.display = 'flex';
-                        shortenedURLText.textContent = shortenedURL;
-
-                        // توليد كود QR
-                        const qrCodeURL = `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${encodeURIComponent(shortenedURL)}`;
-                        document.getElementById('qrCodeImage').src = qrCodeURL;
-                        document.getElementById('qrContainer').style.display = 'block';
-                    } else {
-                        alert('حدث خطأ أثناء اختصار الرابط.');
-                    }
-                } catch (error) {
-                    alert('فشل الاتصال بخادم اختصار الروابط.');
-                    console.error(error);
-                }
+                // عرض الرابط المختصر
+                const shortenedContainer = document.getElementById('shortenedContainer');
+                const shortenedURLText = document.getElementById('shortenedURL');
+                shortenedContainer.style.display = 'flex';
+                shortenedURLText.textContent = shortenedURL;
             } else {
                 alert('من فضلك أدخل رابطًا صحيحًا');
             }
         }
 
+        // نسخ الرابط المختصر
         function copyURL() {
             const shortenedURLText = document.getElementById('shortenedURL').textContent;
             navigator.clipboard.writeText(shortenedURLText).then(() => {
@@ -175,18 +107,18 @@
             });
         }
 
-        function downloadQRCode() {
-            const qrCodeImage = document.getElementById('qrCodeImage');
-            const link = document.createElement('a');
-            link.href = qrCodeImage.src;
-            link.download = 'qr-code.png';
-            link.click();
-        }
-    </script>
+        // إعادة التوجيه بناءً على معلمة target
+        function redirectTo() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const target = urlParams.get('target');
 
-    <script>
-        // إعداد إعلانات جوجل مرة أخرى
-        (adsbygoogle = window.adsbygoogle || []).push({});
+            if (target) {
+                window.location.href = target;
+            }
+        }
+
+        // تنفيذ التوجيه عند تحميل الصفحة
+        window.onload = redirectTo;
     </script>
 </body>
 </html>
