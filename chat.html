@@ -44,11 +44,8 @@
                         <button class="btn btn-secondary" onclick="copyUrl()">نسخ</button>
                     </div>
                     <p>رمز QR:</p>
-                    <div id="qrCode" class="text-center"></div>
-                </div>
-
-                <div id="redirectSection" class="mt-4 d-none">
-                    <p>سيتم توجيهك إلى الرابط بعد <span id="countdown">5</span> ثوانٍ...</p>
+                    <div id="qrCode" class="text-center mb-3"></div>
+                    <button class="btn btn-success" id="downloadQrBtn">تحميل رمز QR</button>
                 </div>
 
                 <!-- مساحة إعلانات -->
@@ -66,50 +63,35 @@
         const resultSection = document.getElementById('resultSection');
         const shortenedUrl = document.getElementById('shortenedUrl');
         const qrCode = document.getElementById('qrCode');
-        const redirectSection = document.getElementById('redirectSection');
-        const countdownElement = document.getElementById('countdown');
-
-        let countdownInterval;
+        const downloadQrBtn = document.getElementById('downloadQrBtn');
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             const url = urlInput.value;
             const shortUrl = generateShortUrl(url);
             shortenedUrl.value = shortUrl;
-            QRCode.toCanvas(qrCode, shortUrl, function (error) {
+            QRCode.toCanvas(qrCode, shortUrl, function (error, canvas) {
                 if (error) console.error(error);
+                // إعداد زر التحميل
+                downloadQrBtn.onclick = function () {
+                    const link = document.createElement('a');
+                    link.download = 'qrcode.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                };
             });
             resultSection.classList.remove('d-none');
-
-            // بدء عداد الثواني
-            startCountdown(shortUrl);
         });
 
         function generateShortUrl(url) {
-            // محاكاة اختصار الرابط (يمكنك ربطه بنظام فعلي لاحقًا)
-            return `https://yourdomain.com/short?url=${btoa(url)}`;
+            // اختصار الرابط إلى الموقع المطلوب
+            return `https://magic.tlgawy.com/chat.html`;
         }
 
         function copyUrl() {
             shortenedUrl.select();
             document.execCommand('copy');
             alert('تم نسخ الرابط المختصر!');
-        }
-
-        function startCountdown(url) {
-            redirectSection.classList.remove('d-none');
-            let countdown = 5;
-            countdownElement.textContent = countdown;
-
-            countdownInterval = setInterval(() => {
-                countdown--;
-                countdownElement.textContent = countdown;
-
-                if (countdown === 0) {
-                    clearInterval(countdownInterval);
-                    window.location.href = url;
-                }
-            }, 1000);
         }
     </script>
 </body>
