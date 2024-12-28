@@ -178,7 +178,14 @@
                     }
                 }, 1000);
             } else {
-                alert('الرابط غير موجود!');
+                // إذا لم يكن هناك رابط مختصر، عرض المحتوى الأصلي
+                document.body.innerHTML = `
+                    <div class="container">
+                        <h2>اختصر رابطك الآن</h2>
+                        <input type="url" id="urlInput" class="form-control mb-3" placeholder="أدخل الرابط هنا" />
+                        <button class="btn-custom" onclick="generateRedirectLink()">إنشاء رابط مختصر</button>
+                    </div>
+                `;
             }
         }
 
