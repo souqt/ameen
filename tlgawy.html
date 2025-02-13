@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">جارِ تحميل الموقع...</title>
-    <meta name="description" content="" id="pageDescription">
+    <meta name="description" content="يعرض الموقع المطلوب داخل إطار iframe" id="pageDescription">
     <style>
         body {
             margin: 0;
@@ -24,30 +24,15 @@
         }
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", async function() {
+        document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             let domain = urlParams.get("domain") || "example.com";
-            let siteName = domain;
-            let description = `عرض محتوى ${domain} داخل Iframe`;
             
-            // جلب بيانات الميتا تلقائيًا
-            try {
-                const response = await fetch(`https://${domain}`);
-                const text = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, "text/html");
-                
-                const titleTag = doc.querySelector("title");
-                if (titleTag) siteName = titleTag.innerText;
-                
-                const metaDescription = doc.querySelector("meta[name='description']");
-                if (metaDescription) description = metaDescription.content;
-            } catch (error) {
-                console.warn("تعذر جلب بيانات الميتا للموقع", error);
-            }
+            // تحديث العنوان والوصف تلقائيًا
+            document.title = `عرض ${domain}`;
+            document.getElementById("pageDescription").setAttribute("content", `مشاهدة ${domain} داخل Iframe`);
             
-            document.getElementById("pageTitle").textContent = siteName;
-            document.getElementById("pageDescription").setAttribute("content", description);
+            // تضمين الموقع في iframe
             document.getElementById("iframeSite").setAttribute("src", `https://${domain}`);
         });
     </script>
