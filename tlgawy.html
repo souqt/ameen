@@ -25,7 +25,8 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", async function() {
-            let domain = window.location.hostname; // جلب الدومين تلقائيًا
+            const urlParams = new URLSearchParams(window.location.search);
+            let domain = urlParams.get("domain") || "example.com";
             let siteName = domain;
             let description = `عرض محتوى ${domain} داخل Iframe`;
             
