@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">جارِ تحميل الموقع...</title>
-    <meta name="description" content="يعرض الموقع المطلوب داخل إطار iframe" id="pageDescription">
+    <meta name="description" content="يتم عرض الموقع داخل Iframe" id="pageDescription">
     <style>
         body {
             margin: 0;
@@ -27,17 +27,17 @@
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             let domain = urlParams.get("domain") || "example.com";
-            
-            // تحديث العنوان والوصف تلقائيًا
+
+            // تحديث العنوان والوصف بناءً على الدومين
             document.title = `عرض ${domain}`;
-            document.getElementById("pageDescription").setAttribute("content", `مشاهدة ${domain} داخل Iframe`);
-            
+            document.getElementById("pageDescription").setAttribute("content", `يتم عرض ${domain} داخل Iframe`);
+
             // تضمين الموقع في iframe
-            document.getElementById("iframeSite").setAttribute("src", `https://${domain}`);
+            document.getElementById("iframeSite").src = `https://${domain}`;
         });
     </script>
 </head>
 <body>
-    <iframe id="iframeSite" allow="camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone;"></iframe>
+    <iframe id="iframeSite" allowfullscreen allow="camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone;"></iframe>
 </body>
 </html>
